@@ -1,0 +1,52 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>WebIFC Course Project</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+</head>
+<body>
+
+  <div class="nav-sidebar">
+    <div class="nav-sidebar-body">
+      <button class="btn btn-nav" id="home-button">
+        <i class="fa-solid fa-house fa-2xl" ></i>
+      </button>
+      <button class="btn btn-nav" id="list-button">
+        <i class="fa-solid fa-list fa-2xl"></i>
+      </button>
+      <button class="btn btn-nav" id="upload-button">
+        <i class="fa-solid fa-cloud-arrow-up fa-2xl"></i>
+      </button>
+      <button class="btn btn-nav" id="info-button">
+        <i class="fa-solid fa-circle-info fa-2xl"></i>
+      </button>
+    </div>
+  </div>
+  <div id="viewer-container"></div>
+  <div class="modal">
+    <div class="modal-content">
+      <span class="close-button close-button1">×</span>
+      <h1>Upload a new model!</h1>
+      <form id="upload" action="/upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" id="file" />
+        <input type="submit" value="Upload" />
+      </form>
+    </div>
+  </div>
+  <div class="list-modal">
+    <div class="modal-content">
+      <span class="close-button close-button2">×</span>
+      <h1>Select a model!</h1>
+      <div class="list-container">
+        <ul id="list">
+          <li id="list1">Simple Model example</li>
+          <li id="list2">Revit Basic Model</li>
+          <li id="list3">Simple Construction</li>
+        </ul>
+    </div>
+  </div>
+  <script src="bundle.js" type=""></script>
+</body>
+</html>
