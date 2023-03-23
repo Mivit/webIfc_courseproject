@@ -87,6 +87,11 @@ button {
 	outline: inherit;
 }
 
+img {
+  width: 200px;
+  height: 200px;
+}
+
 .btn-nav:hover {
     background-color: lightgray;
 }

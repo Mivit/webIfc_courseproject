@@ -27,7 +27,9 @@ var closeButton2 = document.querySelector(".close-button2");
 var model1 = document.getElementById("list1");
 var model2 = document.getElementById("list2");
 var model3 = document.getElementById("list3");
-
+var pic1 = document.getElementById("pic1");
+var pic2 = document.getElementById("pic2");
+var pic3 = document.getElementById("pic3");
 
 function loadHome() {
   releaseMemory();
@@ -66,12 +68,15 @@ function loadModel(event) {
   
   switch (event.target) {
     case model1:
+    case pic1:
       path = '../models/01.ifc';
       break;
     case model2:
+    case pic2:
       path = '../models/revit_basic_model.ifc';
       break;
     case model3:
+    case pic3:
       path = '../models/coordview_1.ifc';
       break;
     default:
