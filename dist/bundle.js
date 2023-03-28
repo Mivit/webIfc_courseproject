@@ -121879,10 +121879,11 @@ async function loadIfc(url) {
 
 var modal = document.querySelector(".modal");
 var listModal = document.querySelector(".list-modal");
+var infoModal = document.querySelector(".info-modal");
 var homeButton = document.getElementById("home-button");
 var uploadButton = document.getElementById("upload-button");
 var listButton = document.getElementById("list-button");
-var infoButton = document.getElementById("info-button");
+document.getElementById("info-button");
 var closeButton1 = document.querySelector(".close-button1");
 var closeButton2 = document.querySelector(".close-button2");
 var model1 = document.getElementById("list1");
@@ -121897,7 +121898,6 @@ function loadHome() {
   viewer = new IfcViewerAPI({container, backgroundColor: new Color(0xffffff)});
   loadIfc('../models/01.ifc');
 }
-
 function toggleModal() {
   modal.classList.toggle("show-modal");
 }
@@ -121905,9 +121905,11 @@ function toggleModal() {
 function toggleListModal() {
   listModal.classList.toggle("show-modal");  
 }
-function toggleInfoMode() {
-
+function toggleInfoModal() {
+  infoModal.classList.toggle("show-modal");  
 }
+
+
 function closeModal(event) {
   switch (event.target.parentElement.parentElement) {
     case modal:
@@ -121915,7 +121917,7 @@ function closeModal(event) {
       break;
     case listModal:
       listModal.classList.toggle("show-modal");
-      break;
+      break;    
   }
 }
 
@@ -121951,20 +121953,41 @@ function windowOnClick(event) {
     case listModal:
       toggleListModal();  
       break;
+    case infoModal:
+      toggleInfoModal();  
+      break;
   }
+}
 
+function buttonPressed(event) {
+  switch (event.key) {
+    case "Escape":
+      console.log("escape pressed");
+      viewer.IFC.selector.unpickIfcItems();
+      viewer.IFC.selector.unHighlightIfcItems();
+      if (listModal.classList.contains("show-modal")) {
+        toggleListModal(); 
+      } else if(modal.classList.contains("show-modal")) {
+        toggleModal();
+      } else {
+        propsGUI.style.border = "none";
+        removeAllChildren(propsGUI);
+
+      }
+      break;
+  }
 }
 
 homeButton.addEventListener("click", loadHome);
 uploadButton.addEventListener("click", toggleModal);
 listButton.addEventListener("click", toggleListModal);
-infoButton.addEventListener("click", toggleInfoMode);
 closeButton1.addEventListener("click", closeModal);
 closeButton2.addEventListener("click", closeModal);
 model1.addEventListener("click", loadModel);
 model2.addEventListener("click", loadModel);
 model3.addEventListener("click", loadModel);
 window.addEventListener("click", windowOnClick);
+window.addEventListener("keydown", buttonPressed);
 
 // handle upload
 const upload = document.getElementById('upload');
@@ -121979,4 +122002,65 @@ upload.addEventListener('change', (e) => {
 
 async function releaseMemory() {
   await viewer.dispose();
+}
+
+
+window.oncontextmenu = async (event) => {
+  event.preventDefault();
+  event.stopPropagation();
+  const result = await viewer.IFC.selector.highlightIfcItem(event);
+  if (!result) return;
+  const { modelID, id } = result;
+  const props = await viewer.IFC.getProperties(modelID, id, true, false);
+  // console.log(props);
+  createPropertiesMenu(props);
+  return false;
+};
+
+const propsGUI = document.getElementById("ifc-property-menu");
+
+function createPropertiesMenu(properties, event) {
+  // console.log(properties);
+  // console.log(propsGUI);
+
+  removeAllChildren(propsGUI);
+
+  propsGUI.style.top = "51%";
+  propsGUI.style.left = "51%";
+
+  delete properties.psets;
+  delete properties.mats;
+  delete properties.type;
+
+
+  for (let key in properties) {
+      createPropertyEntry(key, properties[key]);
+  }
+
+}
+
+function createPropertyEntry(key, value, event) {
+  const propContainer = document.createElement("div");
+  propContainer.classList.add("ifc-property-item");
+
+  if(value === null || value === undefined) value = "undefined";
+  else if(value.value) value = value.value;
+
+  const keyElement = document.createElement("div");
+  keyElement.textContent = key;
+  propContainer.appendChild(keyElement);
+
+  const valueElement = document.createElement("div");
+  valueElement.classList.add("ifc-property-value");
+  valueElement.textContent = value;
+  console.log(valueElement);
+  propContainer.appendChild(valueElement);
+
+  propsGUI.appendChild(propContainer);
+}
+
+function removeAllChildren(element) {
+  while (element.firstChild) {
+      element.removeChild(element.firstChild);
+  }
 }

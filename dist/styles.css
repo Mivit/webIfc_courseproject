@@ -29,6 +29,10 @@ i {
     color: black;
 }
 
+#info-button.active {
+    background-color: lightgray;
+}
+
 #viewer-container {
     position: fixed;
     top: 0;
@@ -53,6 +57,20 @@ i {
 }
 
 .list-modal {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  z-index: 999;
+  visibility: hidden;
+  transform: scale(1.1);
+  transition: visibility 0s linear 0.25s, opacity 0.25s 0s, transform 0.25s;
+}
+
+.info-modal {
   position: fixed;
   left: 0;
   top: 0;
@@ -117,4 +135,23 @@ img {
 
 li {
   list-style: none;
+}
+
+#ifc-property-menu {
+  position: absolute;
+  border: 1px solid gray;
+  width: 20rem;
+  background-color: white;
+}
+
+.ifc-property-item {
+  display: flex;
+  flex-direction: row;
+  padding: 0.5rem;
+  border-bottom: solid 1px gray;
+}
+
+.ifc-property-value {
+  width: 100%;
+  text-align: right;
 }
