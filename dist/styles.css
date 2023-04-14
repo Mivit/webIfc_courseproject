@@ -155,3 +155,12 @@ li {
   width: 100%;
   text-align: right;
 }
+
+info-menu {
+  position: absolute;
+  border: 1px solid gray;
+  width: 20rem;
+  bottom: 2em;
+  right: 2em;
+  background-color: white;
+}

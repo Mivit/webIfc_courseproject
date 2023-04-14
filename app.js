@@ -206,7 +206,7 @@ function createPropertyEntry(key, value, event) {
   const valueElement = document.createElement("div");
   valueElement.classList.add("ifc-property-value");
   valueElement.textContent = value;
-  console.log(valueElement);
+  // console.log(valueElement);
   propContainer.appendChild(valueElement);
 
   propsGUI.appendChild(propContainer);
